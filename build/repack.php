@@ -6,6 +6,9 @@ echo "BUILD MODE: $mode\n";
 $tmp_dir = __DIR__."/build/tmp";
 $result_dir = __DIR__."/build/result/$mode";
 
+echo "TMP DIR: $tmp_dir\n";
+echo "RESULT DIR: $result_dir\n";
+
 if (file_exists($tmp_dir))
 	cmd("rm", "-rf", $tmp_dir);
 
@@ -30,7 +33,9 @@ foreach (glob(__DIR__."/build/*.deb") as $file) {
 	echo "$name\n";
 	echo "  -> unpack deb...\n";
 	cmd("mkdir", "-p", "$tmp_dir/$name");
+        echo "Mkdir\n";
 	cmd("dpkg-deb", "-R", $file, "$tmp_dir/$name");
+        echo "dpkg-deb\n";
 	
 	if ($mode == "light") {
 		echo "  -> remove unnecessary files...\n";
@@ -60,7 +65,7 @@ foreach (glob(__DIR__."/build/*.deb") as $file) {
 				"-iname", "cngp*", "-o",
 				"-iname", "libcnnet*", "-o",
 				"-iname", "canon-maintenance",
-			")", "-delete"
+			")", "-type", "f", "-delete"
 		);
 	}
 	
@@ -155,10 +160,11 @@ function isElf($file) {
 }
 
 function cmd() {
-	$args = array_map(function ($v) { return escapeshellarg($v); }, func_get_args());
+	$args = array_map(fn($v) => escapeshellarg($v) , func_get_args());
 	$cmd = implode(" ", $args);
+        echo "$cmd\n";
 	
-	$ret = system($cmd);
+	system($cmd,$ret);
 	if ($ret != 0)
 		die("Command failed, ret=$ret");
 }

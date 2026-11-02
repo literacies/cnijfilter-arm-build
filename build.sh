@@ -6,7 +6,7 @@ ACTION=$1
 
 CHROOT="$ROOT/chroot"
 
-DEBIAN_VERSION=buster
+DEBIAN_VERSION=bookworm
 DEBIAN_REPO=http://deb.debian.org/debian/
 
 function copy_to_chroot {
