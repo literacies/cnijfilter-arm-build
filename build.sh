@@ -20,18 +20,27 @@ function copy_to_chroot {
 
 function prepare_chroot {
 	if [[ ! -f "$CHROOT/usr/bin/bash" ]]; then
-		echo "Downloading debian $DEBIAN_VERSION..."
-		
+		echo "Creating chroot"
+
 		# Create dir for chroot
 		[[ -d "$CHROOT" ]] || mkdir -p "$CHROOT"
+
 		
 		# Download debian
+		echo "Downloading debian $DEBIAN_VERSION..."
 		debootstrap --variant=minbase --arch=i386 "$DEBIAN_VERSION" "$CHROOT" "$DEBIAN_REPO"
+		
 	fi
 	
 	copy_to_chroot setup.sh +x
 	copy_to_chroot build.sh +x
 	copy_to_chroot repack.php +x
+}
+
+function bind_pts {
+		#bind /dev/pts to chroot
+		mount --rbind /dev "$CHROOT/dev"
+#		mount --rbind /dev/pts "$CHROOT/dev/pts"
 }
 
 function go_chroot {
@@ -41,7 +50,8 @@ function go_chroot {
 if [[ $ACTION = "build" ]]
 then
 	prepare_chroot
-	
+	bind_pts
+
 	rm -rf "$CHROOT/opt/build/result.ok"
 	
 	go_chroot /opt/setup.sh build
