@@ -18,7 +18,7 @@ On any x86 machine:
 sudo apt install debootstrap git util-linux
 
 # Get build system
-git clone https://github.com/Azq2/cnijfilter-arm-build
+git clone https://github.com/literacies/cnijfilter-arm-build
 
 # Start building in chroot
 cd cnijfilter-arm-build
