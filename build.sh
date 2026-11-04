@@ -1,7 +1,7 @@
 #!/bin/bash
 BIN=$0
-ROOT=$(dirname $0)
-ROOT=$(readlink -f $ROOT)
+ROOT=$(dirname "$0")
+ROOT=$(readlink -f "$ROOT")
 ACTION=$1
 
 CHROOT="$ROOT/chroot"
@@ -35,7 +35,7 @@ function prepare_chroot {
 }
 
 function go_chroot {
-	unshare -u chroot "$CHROOT" $@
+	unshare -u chroot "$CHROOT" "$@"
 }
 
 if [[ $ACTION = "build" ]]

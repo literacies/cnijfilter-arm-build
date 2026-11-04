@@ -15,7 +15,7 @@ apt install -y -f debhelper libcups2-dev libxml2-dev libtiff-dev automake autoco
 [[ -d /opt/build ]] || mkdir /opt/build
 chown nobody:nogroup /opt/build
 
-cd /opt/build
+cd /opt/build || exit 1
 
 if [[ $ACTION = "build" ]]
 then
