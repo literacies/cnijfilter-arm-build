@@ -13,6 +13,7 @@ if [[ ! -f /opt/build/git.ok ]]; then
 fi
 
 cd /opt/build/cnijfilter-common || exit 1
+sed -i 's/sys\/sysctl.h/linux\/sysctl.h/g' cnijnpr/src/cnijnpr.c
 
 ACTUAL_REVISION=$(git rev-parse HEAD)
 
